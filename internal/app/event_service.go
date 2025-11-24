@@ -2,26 +2,26 @@ package app
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/jorzel/booking-service/internal/domain"
+	"github.com/jorzel/booking-service/internal/infrastructure"
 	"github.com/rs/zerolog"
 )
 
 type EventService struct {
 	repo                   domain.EventRepository
 	ticketAvailabilityRepo domain.TicketAvailabilityRepository
-	db                     *sql.DB
+	db                     infrastructure.DBClient
 	logger                 zerolog.Logger
 }
 
 func NewEventService(
 	repo domain.EventRepository,
 	ticketAvailabilityRepo domain.TicketAvailabilityRepository,
-	db *sql.DB,
+	db infrastructure.DBClient,
 	logger zerolog.Logger,
 ) *EventService {
 	return &EventService{

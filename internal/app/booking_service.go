@@ -7,20 +7,21 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jorzel/booking-service/internal/domain"
+	"github.com/jorzel/booking-service/internal/infrastructure"
 	"github.com/rs/zerolog"
 )
 
 type BookingService struct {
-	bookingRepo             domain.BookingRepository
-	ticketAvailabilityRepo  domain.TicketAvailabilityRepository
-	db                      *sql.DB
-	logger                  zerolog.Logger
+	bookingRepo            domain.BookingRepository
+	ticketAvailabilityRepo domain.TicketAvailabilityRepository
+	db                     infrastructure.DBClient
+	logger                 zerolog.Logger
 }
 
 func NewBookingService(
 	bookingRepo domain.BookingRepository,
 	ticketAvailabilityRepo domain.TicketAvailabilityRepository,
-	db *sql.DB,
+	db infrastructure.DBClient,
 	logger zerolog.Logger,
 ) *BookingService {
 	return &BookingService{

@@ -23,6 +23,7 @@
 14. Integration tests using testcontainers or similar tools
 15. For API use openapi/Swagger for documentation and client generation (and server is possible)
 
+
 ## Critical Constraints
 - Performance:
     - API responses must be <200ms

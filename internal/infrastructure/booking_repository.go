@@ -11,10 +11,10 @@ import (
 )
 
 type PostgresBookingRepository struct {
-	db *sql.DB
+	db DBClient
 }
 
-func NewPostgresBookingRepository(db *sql.DB) *PostgresBookingRepository {
+func NewPostgresBookingRepository(db DBClient) *PostgresBookingRepository {
 	return &PostgresBookingRepository{db: db}
 }
 

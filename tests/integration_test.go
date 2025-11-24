@@ -87,9 +87,10 @@ func TestEventService_Integration(t *testing.T) {
 	defer cleanup()
 
 	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
-	eventRepo := infrastructure.NewPostgresEventRepository(db)
-	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(db)
-	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, db, logger)
+	dbClient := infrastructure.NewDBClientAdapter(db)
+	eventRepo := infrastructure.NewPostgresEventRepository(dbClient)
+	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(dbClient)
+	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, dbClient, logger)
 
 	ctx := context.Background()
 
@@ -133,11 +134,12 @@ func TestBookingService_Integration(t *testing.T) {
 	defer cleanup()
 
 	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
-	eventRepo := infrastructure.NewPostgresEventRepository(db)
-	bookingRepo := infrastructure.NewPostgresBookingRepository(db)
-	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(db)
-	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, db, logger)
-	bookingService := app.NewBookingService(bookingRepo, ticketAvailabilityRepo, db, logger)
+	dbClient := infrastructure.NewDBClientAdapter(db)
+	eventRepo := infrastructure.NewPostgresEventRepository(dbClient)
+	bookingRepo := infrastructure.NewPostgresBookingRepository(dbClient)
+	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(dbClient)
+	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, dbClient, logger)
+	bookingService := app.NewBookingService(bookingRepo, ticketAvailabilityRepo, dbClient, logger)
 
 	ctx := context.Background()
 
@@ -261,11 +263,12 @@ func TestHTTPEndpoints_Integration(t *testing.T) {
 	defer cleanup()
 
 	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
-	eventRepo := infrastructure.NewPostgresEventRepository(db)
-	bookingRepo := infrastructure.NewPostgresBookingRepository(db)
-	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(db)
-	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, db, logger)
-	bookingService := app.NewBookingService(bookingRepo, ticketAvailabilityRepo, db, logger)
+	dbClient := infrastructure.NewDBClientAdapter(db)
+	eventRepo := infrastructure.NewPostgresEventRepository(dbClient)
+	bookingRepo := infrastructure.NewPostgresBookingRepository(dbClient)
+	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(dbClient)
+	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, dbClient, logger)
+	bookingService := app.NewBookingService(bookingRepo, ticketAvailabilityRepo, dbClient, logger)
 
 	ctx := context.Background()
 
@@ -314,11 +317,12 @@ func BenchmarkCreateBooking(b *testing.B) {
 	defer cleanup()
 
 	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
-	eventRepo := infrastructure.NewPostgresEventRepository(db)
-	bookingRepo := infrastructure.NewPostgresBookingRepository(db)
-	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(db)
-	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, db, logger)
-	bookingService := app.NewBookingService(bookingRepo, ticketAvailabilityRepo, db, logger)
+	dbClient := infrastructure.NewDBClientAdapter(db)
+	eventRepo := infrastructure.NewPostgresEventRepository(dbClient)
+	bookingRepo := infrastructure.NewPostgresBookingRepository(dbClient)
+	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(dbClient)
+	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, dbClient, logger)
+	bookingService := app.NewBookingService(bookingRepo, ticketAvailabilityRepo, dbClient, logger)
 
 	ctx := context.Background()
 

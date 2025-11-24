@@ -57,7 +57,11 @@ docker-down: ## Stop PostgreSQL
 
 migrate: ## Run database migrations
 	@echo "Running migrations..."
-	psql -h localhost -U postgres -d booking_service -f internal/infrastructure/migrations/001_create_tables.sql
+	@for file in $$(ls internal/infrastructure/migrations/*.sql | sort); do \
+		echo "Running migration: $$file"; \
+		psql -h localhost -U postgres -d booking_service -f $$file || exit 1; \
+	done
+	@echo "All migrations completed successfully"
 
 deps: ## Download dependencies
 	@echo "Downloading dependencies..."
@@ -74,8 +78,8 @@ dashboard-deps: ## Install dashboard generation dependencies
 
 dashboard: ## Generate Grafana dashboard from Python code
 	@echo "Generating Grafana dashboard..."
-	python3 dashboards/booking_service_dashboard.py > dashboards/booking_service_generated.json
-	@echo "Dashboard generated: dashboards/booking_service_generated.json"
+	python3 dashboards/booking_service_dashboard.py > dashboards/booking_service.json
+	@echo "Dashboard generated: dashboards/booking_service.json"
 	@echo "You can import this file into Grafana or use dashboards/booking_service.json"
 
 openapi-validate: ## Validate OpenAPI specification

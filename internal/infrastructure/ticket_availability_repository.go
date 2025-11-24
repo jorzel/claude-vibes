@@ -11,10 +11,10 @@ import (
 )
 
 type PostgresTicketAvailabilityRepository struct {
-	db *sql.DB
+	db DBClient
 }
 
-func NewPostgresTicketAvailabilityRepository(db *sql.DB) *PostgresTicketAvailabilityRepository {
+func NewPostgresTicketAvailabilityRepository(db DBClient) *PostgresTicketAvailabilityRepository {
 	return &PostgresTicketAvailabilityRepository{db: db}
 }
 

@@ -15,6 +15,13 @@ type Executor interface {
 	QueryRowContext(ctx context.Context, query string, args ...interface{}) *sql.Row
 }
 
+// Transaction extends Executor with transaction control methods
+type Transaction interface {
+	Executor
+	Commit() error
+	Rollback() error
+}
+
 type EventRepository interface {
 	Create(ctx context.Context, event *Event) error
 	FindByID(ctx context.Context, id uuid.UUID) (*Event, error)

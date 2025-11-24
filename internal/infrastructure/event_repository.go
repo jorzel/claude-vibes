@@ -11,10 +11,10 @@ import (
 )
 
 type PostgresEventRepository struct {
-	db *sql.DB
+	db DBClient
 }
 
-func NewPostgresEventRepository(db *sql.DB) *PostgresEventRepository {
+func NewPostgresEventRepository(db DBClient) *PostgresEventRepository {
 	return &PostgresEventRepository{db: db}
 }
 

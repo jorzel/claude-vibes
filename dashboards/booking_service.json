@@ -1552,6 +1552,440 @@
       "showTitle": true,
       "title": "System Metrics",
       "repeat": null
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 13,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 6,
+          "targets": [
+            {
+              "expr": "rate(booking_service_postgres_queries_total[5m])",
+              "query": "rate(booking_service_postgres_queries_total[5m])",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "{{operation}}",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Postgres Query Rate by Operation",
+          "transparent": false,
+          "transformations": [],
+          "aliasColors": {},
+          "bars": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false,
+            "alignAsTable": false,
+            "hideEmpty": false,
+            "hideZero": false,
+            "rightSide": false,
+            "sideWidth": null,
+            "sort": null,
+            "sortDesc": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": [],
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "stack": false,
+          "steppedLine": false,
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "thresholds": [],
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "values": [],
+            "show": true
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "ops",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "decimals": null,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 14,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 6,
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.50, rate(booking_service_postgres_query_duration_seconds_bucket[5m]))",
+              "query": "histogram_quantile(0.50, rate(booking_service_postgres_query_duration_seconds_bucket[5m]))",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "p50",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            },
+            {
+              "expr": "histogram_quantile(0.95, rate(booking_service_postgres_query_duration_seconds_bucket[5m]))",
+              "query": "histogram_quantile(0.95, rate(booking_service_postgres_query_duration_seconds_bucket[5m]))",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "p95",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            },
+            {
+              "expr": "histogram_quantile(0.99, rate(booking_service_postgres_query_duration_seconds_bucket[5m]))",
+              "query": "histogram_quantile(0.99, rate(booking_service_postgres_query_duration_seconds_bucket[5m]))",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "p99",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Postgres Query Duration (p50, p95, p99)",
+          "transparent": false,
+          "transformations": [],
+          "aliasColors": {},
+          "bars": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false,
+            "alignAsTable": false,
+            "hideEmpty": false,
+            "hideZero": false,
+            "rightSide": false,
+            "sideWidth": null,
+            "sort": null,
+            "sortDesc": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": [],
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "stack": false,
+          "steppedLine": false,
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "thresholds": [],
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "values": [],
+            "show": true
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "s",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "decimals": null,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        }
+      ],
+      "showTitle": true,
+      "title": "Postgres Metrics",
+      "repeat": null
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 15,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 12,
+          "targets": [
+            {
+              "expr": "sum(booking_service_postgres_queries_total) by (operation)",
+              "query": "sum(booking_service_postgres_queries_total) by (operation)",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "{{operation}}",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Total Postgres Queries by Operation",
+          "transparent": false,
+          "transformations": [],
+          "aliasColors": {},
+          "bars": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false,
+            "alignAsTable": false,
+            "hideEmpty": false,
+            "hideZero": false,
+            "rightSide": false,
+            "sideWidth": null,
+            "sort": null,
+            "sortDesc": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": [],
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "stack": true,
+          "steppedLine": false,
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "thresholds": [],
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "values": [],
+            "show": true
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "decimals": null,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        }
+      ],
+      "showTitle": true,
+      "title": "Postgres Query Breakdown",
+      "repeat": null
     }
   ],
   "schemaVersion": 12,

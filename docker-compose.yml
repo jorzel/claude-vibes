@@ -76,7 +76,7 @@ services:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
-      - ./dashboards/booking_service_dashboard.json:/etc/grafana/provisioning/dashboards/booking_service.json
+      - ./dashboards/booking_service.json:/etc/grafana/provisioning/dashboards/booking_service.json
     depends_on:
       - prometheus
     networks:

@@ -32,14 +32,17 @@ func main() {
 	}
 	defer db.Close()
 
-	eventRepo := infrastructure.NewPostgresEventRepository(db)
-	bookingRepo := infrastructure.NewPostgresBookingRepository(db)
-	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(db)
+	// Wrap with instrumented client for metrics
+	instrumentedDB := infrastructure.NewInstrumentedPostgresClient(db)
 
-	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, db, logger)
-	bookingService := app.NewBookingService(bookingRepo, ticketAvailabilityRepo, db, logger)
+	eventRepo := infrastructure.NewPostgresEventRepository(instrumentedDB)
+	bookingRepo := infrastructure.NewPostgresBookingRepository(instrumentedDB)
+	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(instrumentedDB)
 
-	router := transport.NewRouter(eventService, bookingService, db, logger)
+	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, instrumentedDB, logger)
+	bookingService := app.NewBookingService(bookingRepo, ticketAvailabilityRepo, instrumentedDB, logger)
+
+	router := transport.NewRouter(eventService, bookingService, instrumentedDB, logger)
 
 	port := getEnv("PORT", "8080")
 	addr := fmt.Sprintf(":%s", port)

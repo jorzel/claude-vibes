@@ -1,7 +1,6 @@
 package transport
 
 import (
-	"database/sql"
 	"net/http"
 	"strconv"
 	"time"
@@ -17,7 +16,7 @@ import (
 func NewRouter(
 	eventService *app.EventService,
 	bookingService *app.BookingService,
-	db *sql.DB,
+	db infrastructure.DBClient,
 	logger zerolog.Logger,
 ) *echo.Echo {
 	e := echo.New()
