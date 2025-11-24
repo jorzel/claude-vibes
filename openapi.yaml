@@ -1,0 +1,398 @@
+openapi: 3.0.3
+info:
+  title: Booking Service API
+  description: REST API for managing event ticketing operations
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+
+servers:
+  - url: http://localhost:8080
+    description: Development server
+
+tags:
+  - name: Events
+    description: Event management operations
+  - name: Bookings
+    description: Booking management operations
+  - name: Health
+    description: Health and monitoring endpoints
+
+paths:
+  /events:
+    post:
+      tags:
+        - Events
+      summary: Create a new event
+      description: Creates a new event with the specified details and ticket availability
+      operationId: createEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEventRequest'
+            examples:
+              concert:
+                summary: Rock Concert
+                value:
+                  name: "Summer Rock Festival"
+                  date: "2025-08-15T20:00:00Z"
+                  location: "Madison Square Garden"
+                  tickets: 1000
+      responses:
+        '201':
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponse'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    get:
+      tags:
+        - Events
+      summary: List all events
+      description: Retrieves a list of all events ordered by date
+      operationId: listEvents
+      responses:
+        '200':
+          description: List of events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /events/{id}:
+    get:
+      tags:
+        - Events
+      summary: Get event details
+      description: Retrieves detailed information about a specific event
+      operationId: getEvent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Event UUID
+          schema:
+            type: string
+            format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        '200':
+          description: Event details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponse'
+        '400':
+          description: Invalid event ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /bookings:
+    post:
+      tags:
+        - Bookings
+      summary: Create a new booking
+      description: Creates a booking for an event, reserving the specified number of tickets
+      operationId: createBooking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookingRequest'
+            examples:
+              booking:
+                summary: Book 3 tickets
+                value:
+                  event_id: "550e8400-e29b-41d4-a716-446655440000"
+                  user_id: "660e8400-e29b-41d4-a716-446655440001"
+                  tickets_booked: 3
+      responses:
+        '201':
+          description: Booking created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Insufficient tickets available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "conflict: insufficient tickets available"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /bookings/{id}:
+    get:
+      tags:
+        - Bookings
+      summary: Get booking details
+      description: Retrieves detailed information about a specific booking
+      operationId: getBooking
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Booking UUID
+          schema:
+            type: string
+            format: uuid
+          example: "770e8400-e29b-41d4-a716-446655440002"
+      responses:
+        '200':
+          description: Booking details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+        '400':
+          description: Invalid booking ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Booking not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Health check
+      description: Returns the health status of the service and its dependencies
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: "healthy"
+        '503':
+          description: Service is unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: "unhealthy"
+                database: "unreachable"
+
+  /metrics:
+    get:
+      tags:
+        - Health
+      summary: Prometheus metrics
+      description: Returns Prometheus metrics for monitoring
+      operationId: getMetrics
+      responses:
+        '200':
+          description: Prometheus metrics
+          content:
+            text/plain:
+              schema:
+                type: string
+
+components:
+  schemas:
+    CreateEventRequest:
+      type: object
+      required:
+        - name
+        - date
+        - location
+        - tickets
+      properties:
+        name:
+          type: string
+          description: Name of the event
+          minLength: 1
+          maxLength: 255
+          example: "Summer Rock Festival"
+        date:
+          type: string
+          format: date-time
+          description: Date and time of the event
+          example: "2025-08-15T20:00:00Z"
+        location:
+          type: string
+          description: Location where the event takes place
+          minLength: 1
+          maxLength: 255
+          example: "Madison Square Garden"
+        tickets:
+          type: integer
+          description: Total number of tickets available
+          minimum: 0
+          example: 1000
+
+    EventResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique event identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        name:
+          type: string
+          description: Name of the event
+          example: "Summer Rock Festival"
+        date:
+          type: string
+          format: date-time
+          description: Date and time of the event
+          example: "2025-08-15T20:00:00Z"
+        location:
+          type: string
+          description: Location where the event takes place
+          example: "Madison Square Garden"
+        available_tickets:
+          type: integer
+          description: Number of tickets currently available
+          example: 950
+        tickets:
+          type: integer
+          description: Total number of tickets
+          example: 1000
+
+    CreateBookingRequest:
+      type: object
+      required:
+        - event_id
+        - user_id
+        - tickets_booked
+      properties:
+        event_id:
+          type: string
+          format: uuid
+          description: ID of the event to book
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        user_id:
+          type: string
+          format: uuid
+          description: ID of the user making the booking
+          example: "660e8400-e29b-41d4-a716-446655440001"
+        tickets_booked:
+          type: integer
+          description: Number of tickets to book
+          minimum: 1
+          example: 3
+
+    BookingResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique booking identifier
+          example: "770e8400-e29b-41d4-a716-446655440002"
+        event_id:
+          type: string
+          format: uuid
+          description: ID of the booked event
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        user_id:
+          type: string
+          format: uuid
+          description: ID of the user who made the booking
+          example: "660e8400-e29b-41d4-a716-446655440001"
+        tickets_booked:
+          type: integer
+          description: Number of tickets booked
+          example: 3
+        booked_at:
+          type: string
+          format: date-time
+          description: Timestamp when the booking was created
+          example: "2025-01-15T14:30:00Z"
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+          example: "validation error on tickets: must be greater than 0"
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, unhealthy]
+          description: Overall health status
+          example: "healthy"
+        database:
+          type: string
+          description: Database connection status (only present if unhealthy)
+          example: "unreachable"
