@@ -1,0 +1,1631 @@
+{
+  "__inputs": [],
+  "annotations": {
+    "list": []
+  },
+  "description": "Comprehensive monitoring dashboard for the Booking Service",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "hideControls": false,
+  "id": null,
+  "links": [],
+  "panels": [],
+  "refresh": "30s",
+  "rows": [
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": ""
+              }
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 1,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 3,
+          "targets": [
+            {
+              "expr": "sum(booking_service_events_created_total)",
+              "query": "sum(booking_service_events_created_total)",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Events",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Total Events Created",
+          "transparent": false,
+          "transformations": [],
+          "colorBackground": false,
+          "colorValue": false,
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "decimals": null,
+          "format": "short",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [],
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": true
+          },
+          "thresholds": "",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [],
+          "valueName": "current"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": ""
+              }
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 2,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 3,
+          "targets": [
+            {
+              "expr": "sum(booking_service_bookings_created_total)",
+              "query": "sum(booking_service_bookings_created_total)",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Bookings",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Total Bookings Created",
+          "transparent": false,
+          "transformations": [],
+          "colorBackground": false,
+          "colorValue": false,
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "decimals": null,
+          "format": "short",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [],
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": true
+          },
+          "thresholds": "",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [],
+          "valueName": "current"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": ""
+              }
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 3,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 3,
+          "targets": [
+            {
+              "expr": "sum(booking_service_tickets_booked_total)",
+              "query": "sum(booking_service_tickets_booked_total)",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Tickets",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Total Tickets Booked",
+          "transparent": false,
+          "transformations": [],
+          "colorBackground": false,
+          "colorValue": false,
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "decimals": null,
+          "format": "short",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [],
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": true
+          },
+          "thresholds": "",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [],
+          "valueName": "current"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": ""
+              }
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 4,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 3,
+          "targets": [
+            {
+              "expr": "rate(booking_service_http_request_duration_seconds_count[5m])",
+              "query": "rate(booking_service_http_request_duration_seconds_count[5m])",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Rate",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Request Rate (req/s)",
+          "transparent": false,
+          "transformations": [],
+          "colorBackground": false,
+          "colorValue": false,
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "decimals": null,
+          "format": "ops",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [],
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": true
+          },
+          "thresholds": "",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [],
+          "valueName": "current"
+        }
+      ],
+      "showTitle": true,
+      "title": "Overview",
+      "repeat": null
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 5,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 6,
+          "targets": [
+            {
+              "expr": "rate(booking_service_events_created_total{status=\"success\"}[5m])",
+              "query": "rate(booking_service_events_created_total{status=\"success\"}[5m])",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Success",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            },
+            {
+              "expr": "rate(booking_service_events_created_total{status=\"error\"}[5m])",
+              "query": "rate(booking_service_events_created_total{status=\"error\"}[5m])",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Error",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Events Created Over Time",
+          "transparent": false,
+          "transformations": [],
+          "aliasColors": {},
+          "bars": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false,
+            "alignAsTable": false,
+            "hideEmpty": false,
+            "hideZero": false,
+            "rightSide": false,
+            "sideWidth": null,
+            "sort": null,
+            "sortDesc": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": [],
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "stack": false,
+          "steppedLine": false,
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "thresholds": [],
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "values": [],
+            "show": true
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "ops",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "decimals": null,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 6,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 6,
+          "targets": [
+            {
+              "expr": "rate(booking_service_bookings_created_total{status=\"success\"}[5m])",
+              "query": "rate(booking_service_bookings_created_total{status=\"success\"}[5m])",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Success",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            },
+            {
+              "expr": "rate(booking_service_bookings_created_total{status=\"error\"}[5m])",
+              "query": "rate(booking_service_bookings_created_total{status=\"error\"}[5m])",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Error",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Bookings Created Over Time",
+          "transparent": false,
+          "transformations": [],
+          "aliasColors": {},
+          "bars": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false,
+            "alignAsTable": false,
+            "hideEmpty": false,
+            "hideZero": false,
+            "rightSide": false,
+            "sideWidth": null,
+            "sort": null,
+            "sortDesc": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": [],
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "stack": false,
+          "steppedLine": false,
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "thresholds": [],
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "values": [],
+            "show": true
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "ops",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "decimals": null,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        }
+      ],
+      "showTitle": true,
+      "title": "Business Metrics",
+      "repeat": null
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 7,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 6,
+          "targets": [
+            {
+              "expr": "rate(booking_service_http_request_duration_seconds_count[5m])",
+              "query": "rate(booking_service_http_request_duration_seconds_count[5m])",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "{{method}} {{path}}",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Request Rate by Endpoint",
+          "transparent": false,
+          "transformations": [],
+          "aliasColors": {},
+          "bars": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false,
+            "alignAsTable": false,
+            "hideEmpty": false,
+            "hideZero": false,
+            "rightSide": false,
+            "sideWidth": null,
+            "sort": null,
+            "sortDesc": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": [],
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "stack": false,
+          "steppedLine": false,
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "thresholds": [],
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "values": [],
+            "show": true
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "ops",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "decimals": null,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 8,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 6,
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.50, rate(booking_service_http_request_duration_seconds_bucket[5m]))",
+              "query": "histogram_quantile(0.50, rate(booking_service_http_request_duration_seconds_bucket[5m]))",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "p50",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            },
+            {
+              "expr": "histogram_quantile(0.95, rate(booking_service_http_request_duration_seconds_bucket[5m]))",
+              "query": "histogram_quantile(0.95, rate(booking_service_http_request_duration_seconds_bucket[5m]))",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "p95",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            },
+            {
+              "expr": "histogram_quantile(0.99, rate(booking_service_http_request_duration_seconds_bucket[5m]))",
+              "query": "histogram_quantile(0.99, rate(booking_service_http_request_duration_seconds_bucket[5m]))",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "p99",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Response Time (p50, p95, p99)",
+          "transparent": false,
+          "transformations": [],
+          "aliasColors": {},
+          "bars": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false,
+            "alignAsTable": false,
+            "hideEmpty": false,
+            "hideZero": false,
+            "rightSide": false,
+            "sideWidth": null,
+            "sort": null,
+            "sortDesc": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": [],
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "stack": false,
+          "steppedLine": false,
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "thresholds": [],
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "values": [],
+            "show": true
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "s",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "decimals": null,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        }
+      ],
+      "showTitle": true,
+      "title": "HTTP Performance",
+      "repeat": null
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 9,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 6,
+          "targets": [
+            {
+              "expr": "rate(booking_service_http_request_duration_seconds_count{status=~\"4..\"}[5m])",
+              "query": "rate(booking_service_http_request_duration_seconds_count{status=~\"4..\"}[5m])",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "4xx - {{status}}",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            },
+            {
+              "expr": "rate(booking_service_http_request_duration_seconds_count{status=~\"5..\"}[5m])",
+              "query": "rate(booking_service_http_request_duration_seconds_count{status=~\"5..\"}[5m])",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "5xx - {{status}}",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "HTTP Error Rate by Status Code",
+          "transparent": false,
+          "transformations": [],
+          "aliasColors": {},
+          "bars": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false,
+            "alignAsTable": false,
+            "hideEmpty": false,
+            "hideZero": false,
+            "rightSide": false,
+            "sideWidth": null,
+            "sort": null,
+            "sortDesc": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": [],
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "stack": false,
+          "steppedLine": false,
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "thresholds": [],
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "values": [],
+            "show": true
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "ops",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "decimals": null,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 10,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 6,
+          "targets": [
+            {
+              "expr": "rate(booking_service_http_request_duration_seconds_count{status=~\"[45]..\"}[5m]) / rate(booking_service_http_request_duration_seconds_count[5m]) * 100",
+              "query": "rate(booking_service_http_request_duration_seconds_count{status=~\"[45]..\"}[5m]) / rate(booking_service_http_request_duration_seconds_count[5m]) * 100",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Error %",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Error Rate Percentage",
+          "transparent": false,
+          "transformations": [],
+          "aliasColors": {},
+          "bars": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false,
+            "alignAsTable": false,
+            "hideEmpty": false,
+            "hideZero": false,
+            "rightSide": false,
+            "sideWidth": null,
+            "sort": null,
+            "sortDesc": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": [],
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "stack": false,
+          "steppedLine": false,
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "thresholds": [],
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "values": [],
+            "show": true
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "percent",
+              "label": null,
+              "logBase": 1,
+              "max": 100,
+              "min": 0,
+              "show": true
+            },
+            {
+              "decimals": null,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        }
+      ],
+      "showTitle": true,
+      "title": "Error Rates",
+      "repeat": null
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 11,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 6,
+          "targets": [
+            {
+              "expr": "go_goroutines",
+              "query": "go_goroutines",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Goroutines",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Go Goroutines",
+          "transparent": false,
+          "transformations": [],
+          "aliasColors": {},
+          "bars": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false,
+            "alignAsTable": false,
+            "hideEmpty": false,
+            "hideZero": false,
+            "rightSide": false,
+            "sideWidth": null,
+            "sort": null,
+            "sortDesc": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": [],
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "stack": false,
+          "steppedLine": false,
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "thresholds": [],
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "values": [],
+            "show": true
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "decimals": null,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "$datasource",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": ""
+            }
+          },
+          "height": null,
+          "gridPos": null,
+          "hideTimeOverride": false,
+          "id": 12,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "minSpan": null,
+          "repeat": null,
+          "repeatDirection": null,
+          "maxPerRow": null,
+          "span": 6,
+          "targets": [
+            {
+              "expr": "go_memstats_alloc_bytes",
+              "query": "go_memstats_alloc_bytes",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Allocated",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            },
+            {
+              "expr": "go_memstats_heap_alloc_bytes",
+              "query": "go_memstats_heap_alloc_bytes",
+              "target": "",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Heap",
+              "metric": "",
+              "refId": "",
+              "step": 10,
+              "instant": false,
+              "datasource": null
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Memory Usage",
+          "transparent": false,
+          "transformations": [],
+          "aliasColors": {},
+          "bars": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false,
+            "alignAsTable": false,
+            "hideEmpty": false,
+            "hideZero": false,
+            "rightSide": false,
+            "sideWidth": null,
+            "sort": null,
+            "sortDesc": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "nullPointMode": "connected",
+          "options": {
+            "dataLinks": [],
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "stack": false,
+          "steppedLine": false,
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "thresholds": [],
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "values": [],
+            "show": true
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "bytes",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "decimals": null,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": 0
+          }
+        }
+      ],
+      "showTitle": true,
+      "title": "System Metrics",
+      "repeat": null
+    }
+  ],
+  "schemaVersion": 12,
+  "sharedCrosshair": false,
+  "style": "dark",
+  "tags": [
+    "booking-service",
+    "events",
+    "bookings"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": null,
+          "value": null,
+          "tags": []
+        },
+        "datasource": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": null,
+        "sort": 1,
+        "type": "datasource",
+        "useTags": false,
+        "tagsQuery": null,
+        "tagValuesQuery": null,
+        "auto": false,
+        "auto_min": "10s",
+        "auto_count": 30
+      }
+    ]
+  },
+  "title": "Booking Service Monitoring",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ],
+    "nowDelay": null,
+    "hidden": false
+  },
+  "timezone": "browser",
+  "version": 0,
+  "uid": null
+}

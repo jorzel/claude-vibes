@@ -6,7 +6,7 @@ This script generates a Grafana dashboard for monitoring the Booking Service.
 It uses grafanalib to define the dashboard as code.
 
 Usage:
-    python dashboards/booking_service_dashboard.py > dashboards/booking_service.json
+    python dashboards/booking_service_dashboard.py > dashboards/booking_service_dashboard.json
 
 Requirements:
     pip install grafanalib
@@ -20,6 +20,7 @@ from grafanalib.core import (
     Templating,
     Template,
     SingleStat,
+    SparkLine,
     YAxes,
     YAxis,
     SECONDS_FORMAT,
@@ -63,7 +64,7 @@ def create_dashboard():
                         ],
                         valueName="current",
                         format=SHORT_FORMAT,
-                        sparklineShow=True,
+                        sparkline=SparkLine(show=True),
                     ),
                     SingleStat(
                         title="Total Bookings Created",
@@ -76,7 +77,7 @@ def create_dashboard():
                         ],
                         valueName="current",
                         format=SHORT_FORMAT,
-                        sparklineShow=True,
+                        sparkline=SparkLine(show=True),
                     ),
                     SingleStat(
                         title="Total Tickets Booked",
@@ -89,7 +90,7 @@ def create_dashboard():
                         ],
                         valueName="current",
                         format=SHORT_FORMAT,
-                        sparklineShow=True,
+                        sparkline=SparkLine(show=True),
                     ),
                     SingleStat(
                         title="Request Rate (req/s)",
@@ -102,7 +103,7 @@ def create_dashboard():
                         ],
                         valueName="current",
                         format=OPS_FORMAT,
-                        sparklineShow=True,
+                        sparkline=SparkLine(show=True),
                     ),
                 ],
             ),
@@ -268,15 +269,10 @@ def create_dashboard():
 
 if __name__ == "__main__":
     import json
-    from grafanalib.core import _gen_json_from_panels
+    from grafanalib._gen import DashboardEncoder
 
     dashboard = create_dashboard()
 
-    # Generate JSON
-    dashboard_json = {
-        "dashboard": json.loads(_gen_json_from_panels(dashboard)),
-        "overwrite": True,
-        "inputs": [],
-    }
-
-    print(json.dumps(dashboard_json, indent=2))
+    # Generate JSON for Grafana provisioning (direct dashboard object)
+    # Note: For Grafana API imports, wrap this in {"dashboard": ..., "overwrite": True}
+    print(json.dumps(dashboard, indent=2, cls=DashboardEncoder))

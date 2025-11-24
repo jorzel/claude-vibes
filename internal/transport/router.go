@@ -3,8 +3,11 @@ package transport
 import (
 	"database/sql"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/jorzel/booking-service/internal/app"
+	"github.com/jorzel/booking-service/internal/infrastructure"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -22,6 +25,7 @@ func NewRouter(
 
 	e.Use(middleware.RequestID())
 	e.Use(LoggingMiddleware(logger))
+	e.Use(MetricsMiddleware())
 	e.Use(middleware.Recover())
 
 	eventHandler := NewEventHandler(eventService, logger)
@@ -69,6 +73,34 @@ func LoggingMiddleware(logger zerolog.Logger) echo.MiddlewareFunc {
 				Int("status", res.Status).
 				Str("request_id", req.Header.Get(echo.HeaderXRequestID)).
 				Msg("request completed")
+
+			return err
+		}
+	}
+}
+
+func MetricsMiddleware() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			// Skip metrics for /metrics endpoint to avoid self-instrumentation
+			if c.Request().URL.Path == "/metrics" {
+				return next(c)
+			}
+
+			start := time.Now()
+			err := next(c)
+			duration := time.Since(start).Seconds()
+
+			status := c.Response().Status
+			method := c.Request().Method
+			path := c.Path()
+
+			// Record HTTP request duration
+			infrastructure.HTTPRequestDuration.WithLabelValues(
+				method,
+				path,
+				strconv.Itoa(status),
+			).Observe(duration)
 
 			return err
 		}

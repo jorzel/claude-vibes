@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jorzel/booking-service/internal/app"
+	"github.com/jorzel/booking-service/internal/infrastructure"
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog"
 )
@@ -42,6 +43,7 @@ func (h *EventHandler) CreateEvent(c echo.Context) error {
 	var req CreateEventRequest
 	if err := c.Bind(&req); err != nil {
 		h.logger.Error().Err(err).Msg("failed to bind request")
+		infrastructure.EventsCreated.WithLabelValues("error").Inc()
 		return c.JSON(http.StatusBadRequest, ErrorResponse{Error: "invalid request body"})
 	}
 
@@ -52,9 +54,11 @@ func (h *EventHandler) CreateEvent(c echo.Context) error {
 		Tickets:  req.Tickets,
 	})
 	if err != nil {
+		infrastructure.EventsCreated.WithLabelValues("error").Inc()
 		return handleError(c, err)
 	}
 
+	infrastructure.EventsCreated.WithLabelValues("success").Inc()
 	return c.JSON(http.StatusCreated, EventResponse{
 		ID:               event.ID.String(),
 		Name:             event.Name,

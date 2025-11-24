@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jorzel/booking-service/internal/app"
+	"github.com/jorzel/booking-service/internal/infrastructure"
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog"
 )
@@ -40,16 +41,19 @@ func (h *BookingHandler) CreateBooking(c echo.Context) error {
 	var req CreateBookingRequest
 	if err := c.Bind(&req); err != nil {
 		h.logger.Error().Err(err).Msg("failed to bind request")
+		infrastructure.BookingsCreated.WithLabelValues("error").Inc()
 		return c.JSON(http.StatusBadRequest, ErrorResponse{Error: "invalid request body"})
 	}
 
 	eventID, err := uuid.Parse(req.EventID)
 	if err != nil {
+		infrastructure.BookingsCreated.WithLabelValues("error").Inc()
 		return c.JSON(http.StatusBadRequest, ErrorResponse{Error: "invalid event_id"})
 	}
 
 	userID, err := uuid.Parse(req.UserID)
 	if err != nil {
+		infrastructure.BookingsCreated.WithLabelValues("error").Inc()
 		return c.JSON(http.StatusBadRequest, ErrorResponse{Error: "invalid user_id"})
 	}
 
@@ -59,8 +63,12 @@ func (h *BookingHandler) CreateBooking(c echo.Context) error {
 		TicketsBooked: req.TicketsBooked,
 	})
 	if err != nil {
+		infrastructure.BookingsCreated.WithLabelValues("error").Inc()
 		return handleError(c, err)
 	}
+
+	infrastructure.BookingsCreated.WithLabelValues("success").Inc()
+	infrastructure.TicketsBooked.Add(float64(booking.TicketsBooked))
 
 	return c.JSON(http.StatusCreated, BookingResponse{
 		ID:            booking.ID.String(),
