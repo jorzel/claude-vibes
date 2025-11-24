@@ -65,3 +65,26 @@ func (r *PostgresBookingRepository) FindByID(ctx context.Context, id uuid.UUID) 
 
 	return booking, nil
 }
+
+// CreateWithExecutor creates a booking using the provided executor (transaction or db)
+func (r *PostgresBookingRepository) CreateWithExecutor(ctx context.Context, exec domain.Executor, booking *domain.Booking) error {
+	query := `
+		INSERT INTO bookings (id, event_id, user_id, tickets_booked, booked_at)
+		VALUES ($1, $2, $3, $4, $5)
+	`
+
+	_, err := exec.ExecContext(
+		ctx,
+		query,
+		booking.ID,
+		booking.EventID,
+		booking.UserID,
+		booking.TicketsBooked,
+		booking.BookedAt,
+	)
+	if err != nil {
+		return fmt.Errorf("failed to create booking: %w", err)
+	}
+
+	return nil
+}

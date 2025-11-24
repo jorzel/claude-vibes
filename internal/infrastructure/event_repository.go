@@ -137,3 +137,67 @@ func (r *PostgresEventRepository) Update(ctx context.Context, event *domain.Even
 
 	return nil
 }
+
+// FindByIDWithLock retrieves an event by ID with a row-level lock (FOR UPDATE)
+// This should be used within a transaction to prevent concurrent modifications
+func (r *PostgresEventRepository) FindByIDWithLock(ctx context.Context, exec domain.Executor, id uuid.UUID) (*domain.Event, error) {
+	query := `
+		SELECT id, name, date, location, available_tickets, tickets
+		FROM events
+		WHERE id = $1
+		FOR UPDATE
+	`
+
+	event := &domain.Event{}
+	err := exec.QueryRowContext(ctx, query, id).Scan(
+		&event.ID,
+		&event.Name,
+		&event.Date,
+		&event.Location,
+		&event.AvailableTickets,
+		&event.Tickets,
+	)
+
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, domain.ErrEventNotFound
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to find event: %w", err)
+	}
+
+	return event, nil
+}
+
+// UpdateWithExecutor updates an event using the provided executor (transaction or db)
+func (r *PostgresEventRepository) UpdateWithExecutor(ctx context.Context, exec domain.Executor, event *domain.Event) error {
+	query := `
+		UPDATE events
+		SET name = $2, date = $3, location = $4, available_tickets = $5, tickets = $6
+		WHERE id = $1
+	`
+
+	result, err := exec.ExecContext(
+		ctx,
+		query,
+		event.ID,
+		event.Name,
+		event.Date,
+		event.Location,
+		event.AvailableTickets,
+		event.Tickets,
+	)
+	if err != nil {
+		return fmt.Errorf("failed to update event: %w", err)
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get rows affected: %w", err)
+	}
+
+	if rowsAffected == 0 {
+		return domain.ErrEventNotFound
+	}
+
+	return nil
+}

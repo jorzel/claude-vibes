@@ -45,7 +45,7 @@ func (s *BookingService) CreateBooking(ctx context.Context, req CreateBookingReq
 	}
 	defer tx.Rollback()
 
-	event, err := s.eventRepo.FindByID(ctx, req.EventID)
+	event, err := s.eventRepo.FindByIDWithLock(ctx, tx, req.EventID)
 	if err != nil {
 		s.logger.Error().
 			Err(err).
@@ -64,7 +64,7 @@ func (s *BookingService) CreateBooking(ctx context.Context, req CreateBookingReq
 		return nil, err
 	}
 
-	if err := s.eventRepo.Update(ctx, event); err != nil {
+	if err := s.eventRepo.UpdateWithExecutor(ctx, tx, event); err != nil {
 		s.logger.Error().
 			Err(err).
 			Str("event_id", event.ID.String()).
@@ -78,7 +78,7 @@ func (s *BookingService) CreateBooking(ctx context.Context, req CreateBookingReq
 		return nil, fmt.Errorf("invalid booking data: %w", err)
 	}
 
-	if err := s.bookingRepo.Create(ctx, booking); err != nil {
+	if err := s.bookingRepo.CreateWithExecutor(ctx, tx, booking); err != nil {
 		s.logger.Error().
 			Err(err).
 			Str("booking_id", booking.ID.String()).
