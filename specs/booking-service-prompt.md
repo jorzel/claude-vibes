@@ -7,6 +7,7 @@ Follow these standards:
 - See .claude/OBSERVABILITY.md for observability implementation
 
 Start with:
+
 0. Create openapi.yaml defining the API endpoints
 1. Event service with CRUD operations
 2. Booking service with ticket booking logic

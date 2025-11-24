@@ -58,22 +58,37 @@ tests/               # Integration tests
 
 **Prerequisites**
 - Go 1.23+
-- Docker and Docker Compose (for PostgreSQL)
+- Docker and Docker Compose
 - Make (optional)
 
-**Installation**
+**Option 1: Using Docker Compose (Recommended)**
+
+Start all services (PostgreSQL, booking service, Prometheus, Grafana):
+```bash
+docker-compose up -d
+```
+
+This will:
+- Start PostgreSQL with automatic migration execution
+- Start the booking service on `http://localhost:8080`
+- Start Prometheus on `http://localhost:9090`
+- Start Grafana on `http://localhost:3000` (admin/admin)
+
+**Option 2: Local Development**
+
+For running the server locally with containerized PostgreSQL:
 
 1. Install dependencies:
 ```bash
 make deps
 ```
 
-2. Start PostgreSQL:
+2. Start PostgreSQL only:
 ```bash
-docker-compose up -d
+make docker-up
 ```
 
-3. Run database migrations:
+3. Run database migrations (requires `psql` installed locally):
 ```bash
 make migrate
 ```
