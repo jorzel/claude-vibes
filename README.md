@@ -32,7 +32,7 @@ tests/               # Integration tests
 
 #### Tech Stack
 
-- **Language**: Go 1.24+
+- **Language**: Go 1.23+
 - **Web Framework**: Echo
 - **Database**: PostgreSQL 16
 - **Logging**: zerolog
@@ -57,7 +57,7 @@ tests/               # Integration tests
 #### Getting Started
 
 **Prerequisites**
-- Go 1.24+
+- Go 1.23+
 - Docker and Docker Compose (for PostgreSQL)
 - Make (optional)
 

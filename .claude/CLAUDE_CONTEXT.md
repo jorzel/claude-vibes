@@ -17,7 +17,7 @@
 8. Modular design to promote reusability
 9. Use version control effectively with meaningful commit messages
 10. Domain-Driven Design (DDD) principles where applicable
-11. Application logic separated from transport and infrastructure concerns
+11. Application logic separated from transport and infrastructure concerns. Use interfaces instead of direct implementation.
 12. Use dependency injection for better testability
 13. Observability: logging, metrics, tracing
 14. Integration tests using testcontainers or similar tools
@@ -31,7 +31,7 @@
     - Never log sensitive data"
     - Keep secrets out of source code
 - Compatibility:
-    - Go 1.24+,
+    - Go 1.23+,
     - Python 3.11+
 
 ## Project Structure

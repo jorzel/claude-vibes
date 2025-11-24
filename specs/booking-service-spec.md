@@ -1,6 +1,6 @@
 1. Overview
 The Booking Service is a REST API that manages event ticketing operations. Users can browse events and create bookings for available tickets.
-Language: Go 1.24+
+Language: Go 1.23+
 Framework: Echo (HTTP router)
 Database: PostgreSQL
 
