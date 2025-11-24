@@ -61,10 +61,17 @@ func setupTestDB(t *testing.T) (*sql.DB, func()) {
 	db, err := infrastructure.NewPostgresDB(config)
 	require.NoError(t, err)
 
-	migrationSQL, err := os.ReadFile("../internal/infrastructure/migrations/001_create_tables.sql")
+	// Run migrations
+	migrationSQL1, err := os.ReadFile("../internal/infrastructure/migrations/001_create_tables.sql")
 	require.NoError(t, err)
 
-	_, err = db.ExecContext(ctx, string(migrationSQL))
+	_, err = db.ExecContext(ctx, string(migrationSQL1))
+	require.NoError(t, err)
+
+	migrationSQL2, err := os.ReadFile("../internal/infrastructure/migrations/002_separate_ticket_availability.sql")
+	require.NoError(t, err)
+
+	_, err = db.ExecContext(ctx, string(migrationSQL2))
 	require.NoError(t, err)
 
 	cleanup := func() {
@@ -81,7 +88,8 @@ func TestEventService_Integration(t *testing.T) {
 
 	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
 	eventRepo := infrastructure.NewPostgresEventRepository(db)
-	eventService := app.NewEventService(eventRepo, logger)
+	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(db)
+	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, db, logger)
 
 	ctx := context.Background()
 
@@ -127,12 +135,14 @@ func TestBookingService_Integration(t *testing.T) {
 	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
 	eventRepo := infrastructure.NewPostgresEventRepository(db)
 	bookingRepo := infrastructure.NewPostgresBookingRepository(db)
-	eventService := app.NewEventService(eventRepo, logger)
-	bookingService := app.NewBookingService(bookingRepo, eventRepo, db, logger)
+	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(db)
+	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, db, logger)
+	bookingService := app.NewBookingService(bookingRepo, ticketAvailabilityRepo, db, logger)
 
 	ctx := context.Background()
 
 	t.Run("creates booking and decrements available tickets", func(t *testing.T) {
+		// EventService now automatically creates TicketAvailability when creating Event
 		event, err := eventService.CreateEvent(ctx, app.CreateEventRequest{
 			Name:     "Rock Concert",
 			Date:     time.Now().Add(15 * 24 * time.Hour),
@@ -155,9 +165,10 @@ func TestBookingService_Integration(t *testing.T) {
 		assert.Equal(t, userID, booking.UserID)
 		assert.Equal(t, 5, booking.TicketsBooked)
 
-		updatedEvent, err := eventService.GetEvent(ctx, event.ID)
+		// Check ticket availability instead of event
+		updatedAvailability, err := ticketAvailabilityRepo.FindByEventID(ctx, event.ID)
 		require.NoError(t, err)
-		assert.Equal(t, 95, updatedEvent.AvailableTickets)
+		assert.Equal(t, 95, updatedAvailability.AvailableTickets)
 	})
 
 	t.Run("returns error when booking more tickets than available", func(t *testing.T) {
@@ -238,9 +249,10 @@ func TestBookingService_Integration(t *testing.T) {
 		assert.Equal(t, 2, successCount, "expected 2 successful bookings")
 		assert.Equal(t, 1, failureCount, "expected 1 failed booking")
 
-		finalEvent, err := eventService.GetEvent(ctx, event.ID)
+		// Check ticket availability instead of event
+		finalAvailability, err := ticketAvailabilityRepo.FindByEventID(ctx, event.ID)
 		require.NoError(t, err)
-		assert.Equal(t, 2, finalEvent.AvailableTickets)
+		assert.Equal(t, 2, finalAvailability.AvailableTickets)
 	})
 }
 
@@ -251,8 +263,9 @@ func TestHTTPEndpoints_Integration(t *testing.T) {
 	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
 	eventRepo := infrastructure.NewPostgresEventRepository(db)
 	bookingRepo := infrastructure.NewPostgresBookingRepository(db)
-	eventService := app.NewEventService(eventRepo, logger)
-	bookingService := app.NewBookingService(bookingRepo, eventRepo, db, logger)
+	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(db)
+	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, db, logger)
+	bookingService := app.NewBookingService(bookingRepo, ticketAvailabilityRepo, db, logger)
 
 	ctx := context.Background()
 
@@ -289,9 +302,10 @@ func TestHTTPEndpoints_Integration(t *testing.T) {
 		require.NoError(t, err)
 		assert.Equal(t, booking.ID, retrievedBooking.ID)
 
-		updatedEvent, err := eventService.GetEvent(ctx, event.ID)
+		// Check ticket availability instead of event
+		updatedAvailability, err := ticketAvailabilityRepo.FindByEventID(ctx, event.ID)
 		require.NoError(t, err)
-		assert.Equal(t, 47, updatedEvent.AvailableTickets)
+		assert.Equal(t, 47, updatedAvailability.AvailableTickets)
 	})
 }
 
@@ -302,8 +316,9 @@ func BenchmarkCreateBooking(b *testing.B) {
 	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
 	eventRepo := infrastructure.NewPostgresEventRepository(db)
 	bookingRepo := infrastructure.NewPostgresBookingRepository(db)
-	eventService := app.NewEventService(eventRepo, logger)
-	bookingService := app.NewBookingService(bookingRepo, eventRepo, db, logger)
+	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(db)
+	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, db, logger)
+	bookingService := app.NewBookingService(bookingRepo, ticketAvailabilityRepo, db, logger)
 
 	ctx := context.Background()
 
@@ -363,10 +378,17 @@ func setupBenchDB(b *testing.B) (*sql.DB, func()) {
 	db, err := sql.Open("postgres", dsn)
 	require.NoError(b, err)
 
-	migrationSQL, err := os.ReadFile("../internal/infrastructure/migrations/001_create_tables.sql")
+	// Run migrations
+	migrationSQL1, err := os.ReadFile("../internal/infrastructure/migrations/001_create_tables.sql")
 	require.NoError(b, err)
 
-	_, err = db.ExecContext(ctx, string(migrationSQL))
+	_, err = db.ExecContext(ctx, string(migrationSQL1))
+	require.NoError(b, err)
+
+	migrationSQL2, err := os.ReadFile("../internal/infrastructure/migrations/002_separate_ticket_availability.sql")
+	require.NoError(b, err)
+
+	_, err = db.ExecContext(ctx, string(migrationSQL2))
 	require.NoError(b, err)
 
 	cleanup := func() {

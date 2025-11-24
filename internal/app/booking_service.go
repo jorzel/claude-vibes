@@ -11,23 +11,23 @@ import (
 )
 
 type BookingService struct {
-	bookingRepo domain.BookingRepository
-	eventRepo   domain.EventRepository
-	db          *sql.DB
-	logger      zerolog.Logger
+	bookingRepo             domain.BookingRepository
+	ticketAvailabilityRepo  domain.TicketAvailabilityRepository
+	db                      *sql.DB
+	logger                  zerolog.Logger
 }
 
 func NewBookingService(
 	bookingRepo domain.BookingRepository,
-	eventRepo domain.EventRepository,
+	ticketAvailabilityRepo domain.TicketAvailabilityRepository,
 	db *sql.DB,
 	logger zerolog.Logger,
 ) *BookingService {
 	return &BookingService{
-		bookingRepo: bookingRepo,
-		eventRepo:   eventRepo,
-		db:          db,
-		logger:      logger.With().Str("service", "booking").Logger(),
+		bookingRepo:            bookingRepo,
+		ticketAvailabilityRepo: ticketAvailabilityRepo,
+		db:                     db,
+		logger:                 logger.With().Str("service", "booking").Logger(),
 	}
 }
 
@@ -45,31 +45,34 @@ func (s *BookingService) CreateBooking(ctx context.Context, req CreateBookingReq
 	}
 	defer tx.Rollback()
 
-	event, err := s.eventRepo.FindByIDWithLock(ctx, tx, req.EventID)
+	// Lock the TicketAvailability aggregate (not the Event entity)
+	ticketAvailability, err := s.ticketAvailabilityRepo.FindByEventIDWithLock(ctx, tx, req.EventID)
 	if err != nil {
 		s.logger.Error().
 			Err(err).
 			Str("event_id", req.EventID.String()).
-			Msg("failed to find event")
-		return nil, fmt.Errorf("failed to find event: %w", err)
+			Msg("failed to find ticket availability")
+		return nil, fmt.Errorf("failed to find ticket availability: %w", err)
 	}
 
-	if err := event.ReserveTickets(req.TicketsBooked); err != nil {
+	// Use the aggregate to enforce booking business rules
+	if err := ticketAvailability.ReserveTickets(req.TicketsBooked); err != nil {
 		s.logger.Warn().
 			Err(err).
 			Str("event_id", req.EventID.String()).
 			Int("requested", req.TicketsBooked).
-			Int("available", event.AvailableTickets).
+			Int("available", ticketAvailability.AvailableTickets).
 			Msg("insufficient tickets")
 		return nil, err
 	}
 
-	if err := s.eventRepo.UpdateWithExecutor(ctx, tx, event); err != nil {
+	// Update the aggregate
+	if err := s.ticketAvailabilityRepo.UpdateWithExecutor(ctx, tx, ticketAvailability); err != nil {
 		s.logger.Error().
 			Err(err).
-			Str("event_id", event.ID.String()).
-			Msg("failed to update event")
-		return nil, fmt.Errorf("failed to update event: %w", err)
+			Str("event_id", req.EventID.String()).
+			Msg("failed to update ticket availability")
+		return nil, fmt.Errorf("failed to update ticket availability: %w", err)
 	}
 
 	booking, err := domain.NewBooking(req.EventID, req.UserID, req.TicketsBooked)

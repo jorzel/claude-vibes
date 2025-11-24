@@ -6,13 +6,14 @@ import (
 	"github.com/google/uuid"
 )
 
+// Event is a data container for event metadata
+// It does not contain booking business logic - that is handled by TicketAvailability aggregate
 type Event struct {
-	ID               uuid.UUID
-	Name             string
-	Date             time.Time
-	Location         string
-	AvailableTickets int
-	Tickets          int
+	ID       uuid.UUID
+	Name     string
+	Date     time.Time
+	Location string
+	Tickets  int // Total tickets (immutable reference)
 }
 
 func NewEvent(name, location string, date time.Time, tickets int) (*Event, error) {
@@ -21,24 +22,10 @@ func NewEvent(name, location string, date time.Time, tickets int) (*Event, error
 	}
 
 	return &Event{
-		ID:               uuid.New(),
-		Name:             name,
-		Date:             date,
-		Location:         location,
-		AvailableTickets: tickets,
-		Tickets:          tickets,
+		ID:       uuid.New(),
+		Name:     name,
+		Date:     date,
+		Location: location,
+		Tickets:  tickets,
 	}, nil
-}
-
-func (e *Event) ReserveTickets(count int) error {
-	if count <= 0 {
-		return ErrInvalidTicketCount
-	}
-
-	if e.AvailableTickets < count {
-		return ErrInsufficientTickets
-	}
-
-	e.AvailableTickets -= count
-	return nil
 }

@@ -34,9 +34,10 @@ func main() {
 
 	eventRepo := infrastructure.NewPostgresEventRepository(db)
 	bookingRepo := infrastructure.NewPostgresBookingRepository(db)
+	ticketAvailabilityRepo := infrastructure.NewPostgresTicketAvailabilityRepository(db)
 
-	eventService := app.NewEventService(eventRepo, logger)
-	bookingService := app.NewBookingService(bookingRepo, eventRepo, db, logger)
+	eventService := app.NewEventService(eventRepo, ticketAvailabilityRepo, db, logger)
+	bookingService := app.NewBookingService(bookingRepo, ticketAvailabilityRepo, db, logger)
 
 	router := transport.NewRouter(eventService, bookingService, db, logger)
 

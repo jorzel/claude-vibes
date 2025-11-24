@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"time"
 
@@ -11,14 +12,23 @@ import (
 )
 
 type EventService struct {
-	repo   domain.EventRepository
-	logger zerolog.Logger
+	repo                   domain.EventRepository
+	ticketAvailabilityRepo domain.TicketAvailabilityRepository
+	db                     *sql.DB
+	logger                 zerolog.Logger
 }
 
-func NewEventService(repo domain.EventRepository, logger zerolog.Logger) *EventService {
+func NewEventService(
+	repo domain.EventRepository,
+	ticketAvailabilityRepo domain.TicketAvailabilityRepository,
+	db *sql.DB,
+	logger zerolog.Logger,
+) *EventService {
 	return &EventService{
-		repo:   repo,
-		logger: logger.With().Str("service", "event").Logger(),
+		repo:                   repo,
+		ticketAvailabilityRepo: ticketAvailabilityRepo,
+		db:                     db,
+		logger:                 logger.With().Str("service", "event").Logger(),
 	}
 }
 
@@ -36,16 +46,41 @@ func (s *EventService) CreateEvent(ctx context.Context, req CreateEventRequest) 
 		return nil, fmt.Errorf("invalid event data: %w", err)
 	}
 
-	if err := s.repo.Create(ctx, event); err != nil {
+	// Create TicketAvailability aggregate for the event
+	ticketAvailability, err := domain.NewTicketAvailability(event.ID, req.Tickets)
+	if err != nil {
+		s.logger.Error().Err(err).Msg("failed to create ticket availability domain object")
+		return nil, fmt.Errorf("invalid ticket availability data: %w", err)
+	}
+
+	// Use transaction to ensure atomic creation of both Event and TicketAvailability
+	tx, err := s.db.BeginTx(ctx, nil)
+	if err != nil {
+		s.logger.Error().Err(err).Msg("failed to begin transaction")
+		return nil, fmt.Errorf("failed to begin transaction: %w", err)
+	}
+	defer tx.Rollback()
+
+	if err := s.repo.CreateWithExecutor(ctx, tx, event); err != nil {
 		s.logger.Error().Err(err).Str("event_id", event.ID.String()).Msg("failed to save event")
 		return nil, fmt.Errorf("failed to create event: %w", err)
+	}
+
+	if err := s.ticketAvailabilityRepo.CreateWithExecutor(ctx, tx, ticketAvailability); err != nil {
+		s.logger.Error().Err(err).Str("event_id", event.ID.String()).Msg("failed to save ticket availability")
+		return nil, fmt.Errorf("failed to create ticket availability: %w", err)
+	}
+
+	if err := tx.Commit(); err != nil {
+		s.logger.Error().Err(err).Msg("failed to commit transaction")
+		return nil, fmt.Errorf("failed to commit transaction: %w", err)
 	}
 
 	s.logger.Info().
 		Str("event_id", event.ID.String()).
 		Str("name", event.Name).
 		Int("tickets", event.Tickets).
-		Msg("event created")
+		Msg("event and ticket availability created")
 
 	return event, nil
 }

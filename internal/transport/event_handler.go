@@ -31,12 +31,11 @@ type CreateEventRequest struct {
 }
 
 type EventResponse struct {
-	ID               string    `json:"id"`
-	Name             string    `json:"name"`
-	Date             time.Time `json:"date"`
-	Location         string    `json:"location"`
-	AvailableTickets int       `json:"available_tickets"`
-	Tickets          int       `json:"tickets"`
+	ID       string    `json:"id"`
+	Name     string    `json:"name"`
+	Date     time.Time `json:"date"`
+	Location string    `json:"location"`
+	Tickets  int       `json:"tickets"`
 }
 
 func (h *EventHandler) CreateEvent(c echo.Context) error {
@@ -60,12 +59,11 @@ func (h *EventHandler) CreateEvent(c echo.Context) error {
 
 	infrastructure.EventsCreated.WithLabelValues("success").Inc()
 	return c.JSON(http.StatusCreated, EventResponse{
-		ID:               event.ID.String(),
-		Name:             event.Name,
-		Date:             event.Date,
-		Location:         event.Location,
-		AvailableTickets: event.AvailableTickets,
-		Tickets:          event.Tickets,
+		ID:       event.ID.String(),
+		Name:     event.Name,
+		Date:     event.Date,
+		Location: event.Location,
+		Tickets:  event.Tickets,
 	})
 }
 
@@ -81,12 +79,11 @@ func (h *EventHandler) GetEvent(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, EventResponse{
-		ID:               event.ID.String(),
-		Name:             event.Name,
-		Date:             event.Date,
-		Location:         event.Location,
-		AvailableTickets: event.AvailableTickets,
-		Tickets:          event.Tickets,
+		ID:       event.ID.String(),
+		Name:     event.Name,
+		Date:     event.Date,
+		Location: event.Location,
+		Tickets:  event.Tickets,
 	})
 }
 
@@ -99,12 +96,11 @@ func (h *EventHandler) ListEvents(c echo.Context) error {
 	response := make([]EventResponse, 0, len(events))
 	for _, event := range events {
 		response = append(response, EventResponse{
-			ID:               event.ID.String(),
-			Name:             event.Name,
-			Date:             event.Date,
-			Location:         event.Location,
-			AvailableTickets: event.AvailableTickets,
-			Tickets:          event.Tickets,
+			ID:       event.ID.String(),
+			Name:     event.Name,
+			Date:     event.Date,
+			Location: event.Location,
+			Tickets:  event.Tickets,
 		})
 	}
 

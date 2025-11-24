@@ -20,9 +20,8 @@ type EventRepository interface {
 	FindByID(ctx context.Context, id uuid.UUID) (*Event, error)
 	FindAll(ctx context.Context) ([]*Event, error)
 	Update(ctx context.Context, event *Event) error
-	// Transaction-aware methods
-	FindByIDWithLock(ctx context.Context, exec Executor, id uuid.UUID) (*Event, error)
-	UpdateWithExecutor(ctx context.Context, exec Executor, event *Event) error
+	// Transaction-aware method for atomic event+availability creation
+	CreateWithExecutor(ctx context.Context, exec Executor, event *Event) error
 }
 
 type BookingRepository interface {
@@ -30,4 +29,13 @@ type BookingRepository interface {
 	FindByID(ctx context.Context, id uuid.UUID) (*Booking, error)
 	// Transaction-aware methods
 	CreateWithExecutor(ctx context.Context, exec Executor, booking *Booking) error
+}
+
+type TicketAvailabilityRepository interface {
+	Create(ctx context.Context, availability *TicketAvailability) error
+	FindByEventID(ctx context.Context, eventID uuid.UUID) (*TicketAvailability, error)
+	// Transaction-aware methods
+	CreateWithExecutor(ctx context.Context, exec Executor, availability *TicketAvailability) error
+	FindByEventIDWithLock(ctx context.Context, exec Executor, eventID uuid.UUID) (*TicketAvailability, error)
+	UpdateWithExecutor(ctx context.Context, exec Executor, availability *TicketAvailability) error
 }
